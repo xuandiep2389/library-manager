@@ -12,10 +12,12 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import rt4.librarymanager.model.Book;
 
 import static org.junit.Assert.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 
 @RunWith(SpringRunner.class)
@@ -27,9 +29,6 @@ public class BookControllerTest {
     private BookController bookController;
 
     @Autowired
-    private PageableHandlerMethodArgumentResolver pageableHandlerMethodArgumentResolver;
-
-    @Autowired
     private MockMvc mockMvc;
 
     @Before
@@ -38,8 +37,10 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testShowCreateBookPage(){
+    public void testShowCreateBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
+        mockMvc.perform(get("/book"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 }
