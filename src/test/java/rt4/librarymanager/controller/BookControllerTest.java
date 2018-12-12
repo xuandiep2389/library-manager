@@ -15,11 +15,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import rt4.librarymanager.model.Book;
+import rt4.librarymanager.service.BookService;
 
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 
 @RunWith(SpringRunner.class)
@@ -31,6 +35,9 @@ public class BookControllerTest {
     private BookController bookController;
 
     @Autowired
+    private BookService bookService;
+
+    @Autowired
     private MockMvc mockMvc;
 
     @Before
@@ -38,63 +45,21 @@ public class BookControllerTest {
 
     }
 
-//    @Test
-//    public void testShowBookList() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        mockMvc.perform(get("/book/list"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-////        .andExpect(model().attribute("artifact", book));
-//    }
-//    @Test
-//    public void testShowCreateBookPage() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        Book book = Book.builder().build();
-//        mockMvc.perform(get("/book/create"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//    }
-//
-//    @Test
-//    public void testCreateBook() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        Book book = Book.builder().build();
-//        mockMvc.perform(post("/book/create"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//    }
-//
-//
-//    @Test
-//    public void testShowEditBookPage() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        mockMvc.perform(get("/book/edit/{id}"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//    }
-//
-//    @Test
-//    public void testEditBook() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        mockMvc.perform(post("/book/edit"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//    }
-//
-//    @Test
-//    public void testShowDeleteBookPage() throws Exception{
-//        assertNotNull(mockMvc);
-//        assertNotNull(bookController);
-//        mockMvc.perform(post("/book/delete"))
-//                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//    }
+
+    private static Book emptyBook;
+
+    static {
+        emptyBook =  Book.builder().build();
+    }
 
     @Test
     public void showCreateBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
         mockMvc.perform(get("/book/create"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/create"))
+                .andExpect(model().attribute("book", emptyBook));
     }
 
     @Test
@@ -105,23 +70,38 @@ public class BookControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
-//    @Test
-//    public void listBook() {
-//    }
-//
-//    @Test
-//    public void showEditForm() {
-//    }
-//
-//    @Test
-//    public void editBook() {
-//    }
-//
-//    @Test
-//    public void viewDeleteForm() {
-//    }
-//
-//    @Test
-//    public void deleteBook() {
-//    }
+    @Test
+    public void listBook() throws Exception{
+        mockMvc.perform(get("/book/list"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/list"));
+    }
+
+    @Test
+    public void showEditForm() throws Exception{
+        mockMvc.perform(get("/book/edit/*"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/edit/*"));
+    }
+
+    @Test
+    public void editBook() throws Exception{
+        mockMvc.perform(post("/book/edit/*"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/edit/*"));
+    }
+
+    @Test
+    public void viewDeleteForm() throws Exception{
+        mockMvc.perform(get("/book/delete/*"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/delete/*"));
+    }
+
+    @Test
+    public void deleteBook() throws Exception{
+        mockMvc.perform(post("/book/delete/*"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/delete/*"));
+    }
 }
