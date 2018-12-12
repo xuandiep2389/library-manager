@@ -1,13 +1,48 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add new book</title>
+    <title>Create Book</title>
 </head>
 <body>
-1
+<div align="center">
+    <h1>Create Book</h1>
+    <hr>
+    <span th:if="message" th:text="${message}"></span>
+    <form th:action="@{/create}" method="post" th:object="${book}">
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td><input type="text" th:field="*{name}"></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Author:</td>
+                <td><input type="text" th:field="*{author}"></td>
+                <td th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</td>
+
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td><input type="text" th:field="*{type}"></td>
+                <td th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Type Error</td>
+
+            </tr>
+            <tr>
+                <td>Amount:</td>
+                <td><input type="text" th:field="*{amount}"></td>
+                <td th:if="${#fields.hasErrors('type')}" th:errors="*{amount}">Amount Error</td>
+            </tr>
+
+            <tr>
+                <td><input type="submit" value="Create new Book"/></td>
+            </tr>
+
+        </table>
+
+        <a th:href="@{/book/list}">Back to list</a>
+    </form>
+</div>
+
 </body>
 </html>
