@@ -15,4 +15,6 @@ public interface BookService {
 
     Page<Book> findAllByName(String name, Pageable pageable);
 
+    Page<Book> findAllByAuthor(String author,Pageable pageable);
+
 }

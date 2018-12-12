@@ -7,4 +7,5 @@ import rt4.librarymanager.model.Book;
 
 public interface BookRepository extends PagingAndSortingRepository<Book,Integer> {
     Page<Book> findAllByName(String name, Pageable pageable);
+    Page<Book> findAllByAuthor(String author,Pageable pageable);
 }

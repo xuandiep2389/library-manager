@@ -42,12 +42,38 @@ public class BookController {
         }
     }
 
-    @GetMapping("/list")
-    public ModelAndView listBook(@RequestParam("search") Optional<String> search, @PageableDefault(size = 3) Pageable pageable) {
+    @GetMapping("/searchByAuthor")
+    public ModelAndView listBook(@RequestParam("searchByAuthor") Optional<String> searchByAuthor, @PageableDefault(size = 3) Pageable pageable) {
         Page<Book> books;
-        if (search.isPresent()) {
-            books = bookService.findAllByName(search.get(), pageable);
+        if (searchByAuthor.isPresent()) {
+            books = bookService.findAllByAuthor(searchByAuthor.get(), pageable);
         } else {
+            books = bookService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/book/search/searchByAuthor");
+        modelAndView.addObject("books", books);
+        return modelAndView;
+    }
+
+    @GetMapping("/searchByTitle")
+    public ModelAndView searchByTitle(@RequestParam("searchByTitle") Optional<String> searchByTitle, @PageableDefault(size = 3) Pageable pageable) {
+        Page<Book> books;
+        if (searchByTitle.isPresent()) {
+            books = bookService.findAllByName(searchByTitle.get(), pageable);
+        } else {
+            books = bookService.findAll(pageable);
+        }
+        ModelAndView modelAndView = new ModelAndView("/book/search/searchByTitle");
+        modelAndView.addObject("books", books);
+        return modelAndView;
+    }
+
+    @GetMapping(value = "/list")
+    public ModelAndView searchByAuthor(@RequestParam("searchByAuthor") Optional<String> searchByAuthor, @PageableDefault(size = 3) Pageable pageable) {
+        Page<Book> books;
+        if (searchByAuthor.isPresent()){
+            books = bookService.findAllByAuthor(searchByAuthor.get(), pageable);
+        }else {
             books = bookService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("/book/list");

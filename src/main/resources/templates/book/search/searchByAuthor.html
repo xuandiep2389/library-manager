@@ -2,12 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List Book</title>
+    <title>Search by author</title>
 </head>
 <body>
-<a th:href="@{/book/create}">Create new Book</a>
-<a th:href="@{/book/searchByTitle}">Search by title</a>
-<a th:href="@{/book/searchByAuthor}">Search by author</a>
+<form>
+    <table border="1">
+        <tr>
+            <td>Search</td>
+            <td><input placeholder="Author" name="searchByAuthor" type="text"></td>
+            <td><input type="submit" value="Search"/><br></td>
+        </tr>
+    </table>
+</form>
 <table border="1" th:object="${books}">
     <tr>
         <td>ID</td>
@@ -23,9 +29,9 @@
             <td th:text="${book.author}"></td>
             <td th:text="${book.type}"></td>
             <td th:text="${book.amount}"></td>
-            <td><a th:href="@{/book/view/__${book.id}__}">View</a></td>
-            <td><a th:href="@{/book/edit/__${book.id}__}">Edit</a></td>
-            <td><a th:href="@{/book/delete/__${book.id}__}">Delete</a></td>
+            <!--<td><a th:href="@{/book/view/__${book.id}__}">View</a></td>-->
+            <!--<td><a th:href="@{/book/edit/__${book.id}__}">Edit</a></td>-->
+            <!--<td><a th:href="@{/book/delete/__${book.id}__}">Delete</a></td>-->
         </tr>
     </th:block>
 </table>
@@ -34,5 +40,6 @@
     <span th:text="${books.number + 1}"></span>/<span th:text="${books.totalPages}"></span>
     <a th:href="@{'/book/list'(page=${books.number + 1})}" th:if="${books.hasNext()}">Next</a>
 </div>
+<a th:href="@{/book/list}">Back to List</a>
 </body>
 </html>
