@@ -49,10 +49,10 @@ public class BookControllerTest {
     public void testShowCreateBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
-//        Book book = Book.builder().build();
+        Book book = Book.builder().build();
         mockMvc.perform(get("/book/create"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
-//        .andExpect(model().attribute("artifact", book));
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(model().attribute("book", book));
     }
 
     @Test

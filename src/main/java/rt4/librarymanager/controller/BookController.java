@@ -12,7 +12,8 @@ public class BookController {
 
     @GetMapping("/create")
     public ModelAndView showCreateBookPage(){
-        ModelAndView modelAndView = new ModelAndView("/book/create","artifact", Book.builder().build());
+        ModelAndView modelAndView = new ModelAndView("/book/create");
+        modelAndView.addObject("book", new Book());
         return modelAndView;
     }
 
