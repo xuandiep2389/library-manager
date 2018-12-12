@@ -2,26 +2,18 @@ package rt4.librarymanager.controller;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import rt4.librarymanager.model.Book;
 import rt4.librarymanager.service.BookService;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -67,7 +59,7 @@ public class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
@@ -96,9 +88,6 @@ public class BookControllerTest {
 
     @Test
     public void showEditForm() throws Exception{
-        when(bookService.findById(sampleID))
-                .thenReturn(sampleBook);
-
         mockMvc.perform(get("/book/edit/" + sampleID))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(view().name("/book/edit"))
