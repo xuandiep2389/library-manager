@@ -9,14 +9,15 @@
     <h1>Books</h1>
     <a th:href="@{/book/create}">Create new Book</a>
     <hr>
-    <table border="1">
-        <tr>
-            <td>Search</td>
-            <td><input value="Name" name="search" type="text"></td>
-            <td><input type="submit" value="Search"/><br></td>
-        </tr>
-    </table>
-
+    <form>
+        <table border="1">
+            <tr>
+                <td>Search</td>
+                <td><input placeholder="book name" name="search" type="text"></td>
+                <td><input type="submit" value="Search"/><br></td>
+            </tr>
+        </table>
+    </form>
     <table border="1" th:object="${books}">
 
         <tr>

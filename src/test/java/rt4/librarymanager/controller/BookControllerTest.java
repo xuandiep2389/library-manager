@@ -52,8 +52,7 @@ public class BookControllerTest {
         assertNotNull(bookController);
         Book book = Book.builder().build();
         mockMvc.perform(get("/book/create"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(model().attribute("book", book));
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
     @Test
@@ -70,7 +69,15 @@ public class BookControllerTest {
     public void testShowEditBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
-        mockMvc.perform(get("/book/edit"))
+        mockMvc.perform(get("/book/edit/{id}"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+    }
+
+    @Test
+    public void testEditBook() throws Exception{
+        assertNotNull(mockMvc);
+        assertNotNull(bookController);
+        mockMvc.perform(post("/book/edit"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
