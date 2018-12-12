@@ -38,12 +38,37 @@ public class BookControllerTest {
     }
 
     @Test
-    public void testShowCreateBookPage() throws Exception{
+    public void testShowBookList() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
-        Book book = Book.builder().build();
-        mockMvc.perform(get("/book"))
+        mockMvc.perform(get("/book/list"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 //        .andExpect(model().attribute("artifact", book));
     }
+    @Test
+    public void testShowCreateBookPage() throws Exception{
+        assertNotNull(mockMvc);
+        assertNotNull(bookController);
+//        Book book = Book.builder().build();
+        mockMvc.perform(get("/book/create"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+//        .andExpect(model().attribute("artifact", book));
+    }
+
+    @Test
+    public void testShowEditBookPage() throws Exception{
+        assertNotNull(mockMvc);
+        assertNotNull(bookController);
+        mockMvc.perform(get("/book/edit"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+    }
+
+    @Test
+    public void testShowDeleteBookPage() throws Exception{
+        assertNotNull(mockMvc);
+        assertNotNull(bookController);
+        mockMvc.perform(get("/book/delete"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+    }
+
 }

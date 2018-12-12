@@ -10,9 +10,27 @@ import rt4.librarymanager.model.Book;
 @RequestMapping("/book")
 public class BookController {
 
-    @GetMapping("")
+    @GetMapping("/create")
     public ModelAndView showCreateBookPage(){
         ModelAndView modelAndView = new ModelAndView("/book/create","artifact", Book.builder().build());
+        return modelAndView;
+    }
+
+    @GetMapping("/list")
+    public ModelAndView showListBook(){
+        ModelAndView modelAndView = new ModelAndView("/book/list");
+        return modelAndView;
+    }
+
+    @GetMapping("/edit")
+    public ModelAndView showEditPage(){
+        ModelAndView modelAndView = new ModelAndView(("/book/edit"));
+        return modelAndView;
+    }
+
+    @GetMapping("/delete")
+    public ModelAndView showDeletePage(){
+        ModelAndView modelAndView = new ModelAndView(("/book/delete"));
         return modelAndView;
     }
 
