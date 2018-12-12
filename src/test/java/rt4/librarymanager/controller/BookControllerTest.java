@@ -2,6 +2,7 @@ package rt4.librarymanager.controller;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
@@ -20,6 +21,7 @@ import rt4.librarymanager.service.BookService;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -31,6 +33,31 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class BookControllerTest {
 
+    private static Book emptyBook;
+    private static int sampleID;
+    private static String sampleName;
+    private static String sampleAuthor;
+    private static String sampleType;
+    private static int sampleAmount;
+    private static Book sampleBook;
+
+
+    static {
+        emptyBook =  Book.builder().build();
+        sampleID = 1;
+        sampleAmount = 1;
+        sampleName = "sample name";
+        sampleType = "sample type";
+        sampleAuthor = "sample author";
+        sampleBook = Book.builder()
+                .id(sampleID)
+                .name(sampleName)
+                .author(sampleAuthor)
+                .type(sampleType)
+                .amount(sampleAmount)
+                .build();
+    }
+
     @InjectMocks
     private BookController bookController;
 
@@ -40,34 +67,24 @@ public class BookControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-
-    }
-
-
-    private static Book emptyBook;
-
-    static {
-        emptyBook =  Book.builder().build();
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void showCreateBookPage() throws Exception{
-        assertNotNull(mockMvc);
-        assertNotNull(bookController);
         mockMvc.perform(get("/book/create"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(view().name("/book/create"))
-                .andExpect(model().attribute("book", emptyBook));
+                .andExpect(view().name("/book/create"));
+//                .andExpect(model().attribute("book", emptyBook));
     }
 
     @Test
     public void createBook() throws Exception {
-        assertNotNull(mockMvc);
-        assertNotNull(bookController);
         mockMvc.perform(post("/book/create"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(view().name("/book/create"));
     }
 
     @Test
@@ -79,29 +96,33 @@ public class BookControllerTest {
 
     @Test
     public void showEditForm() throws Exception{
-        mockMvc.perform(get("/book/edit/*"))
-                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(view().name("/book/edit/*"));
+        when(bookService.findById(sampleID))
+                .thenReturn(sampleBook);
+
+        mockMvc.perform(get("/book/edit/" + sampleID))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(view().name("/book/edit"))
+                .andExpect(model().attribute("book",sampleBook));
     }
 
     @Test
     public void editBook() throws Exception{
-        mockMvc.perform(post("/book/edit/*"))
+        mockMvc.perform(post("/book/edit"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(view().name("/book/edit/*"));
+                .andExpect(view().name("/book/edit"));
     }
 
     @Test
     public void viewDeleteForm() throws Exception{
-        mockMvc.perform(get("/book/delete/*"))
+        mockMvc.perform(get("/book/delete"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(view().name("/book/delete/*"));
+                .andExpect(view().name("/book/delete"));
     }
 
     @Test
     public void deleteBook() throws Exception{
-        mockMvc.perform(post("/book/delete/*"))
+        mockMvc.perform(post("/book/delete"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
-                .andExpect(view().name("/book/delete/*"));
+                .andExpect(view().name("/book/delete"));
     }
 }
