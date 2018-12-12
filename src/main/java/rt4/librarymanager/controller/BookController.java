@@ -70,10 +70,25 @@ public class BookController {
         return modelAndView;
     }
 
-    @GetMapping("/delete")
-    public ModelAndView showDeletePage(){
-        ModelAndView modelAndView = new ModelAndView(("/book/delete"));
+    @GetMapping("/delete/{id}")
+    public ModelAndView viewDeleteForm(@PathVariable int id) {
+        ModelAndView modelAndView = new ModelAndView("/book/delete");
+        modelAndView.addObject("book", bookService.findById(id));
         return modelAndView;
     }
 
+    @PostMapping("/delete")
+    public ModelAndView deleteBook(@RequestParam("id") int id, Book book) {
+        book = bookService.findById(id);
+        if (book != null) {
+            bookService.remove(id);
+            ModelAndView modelAndView = new ModelAndView("/book/delete");
+            modelAndView.addObject("message", "Delete Success");
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("/book/delete");
+            modelAndView.addObject("message", "No book to delete");
+            return modelAndView;
+        }
+    }
 }

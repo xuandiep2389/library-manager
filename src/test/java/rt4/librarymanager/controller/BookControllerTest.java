@@ -85,7 +85,7 @@ public class BookControllerTest {
     public void testShowDeleteBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
-        mockMvc.perform(get("/book/delete"))
+        mockMvc.perform(post("/book/delete"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
 
