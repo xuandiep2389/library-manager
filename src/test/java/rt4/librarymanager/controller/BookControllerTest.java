@@ -18,6 +18,7 @@ import rt4.librarymanager.model.Book;
 
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 
 @RunWith(SpringRunner.class)
@@ -40,7 +41,9 @@ public class BookControllerTest {
     public void testShowCreateBookPage() throws Exception{
         assertNotNull(mockMvc);
         assertNotNull(bookController);
+        Book book = Book.builder().build();
         mockMvc.perform(get("/book"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+//        .andExpect(model().attribute("artifact", book));
     }
 }

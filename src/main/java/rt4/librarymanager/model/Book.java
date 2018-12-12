@@ -1,9 +1,15 @@
 package rt4.librarymanager.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "books")
+@Builder
+@AllArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
