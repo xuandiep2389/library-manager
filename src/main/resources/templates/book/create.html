@@ -9,7 +9,7 @@
     <h1>Create Book</h1>
     <hr>
     <span th:if="message" th:text="${message}"></span>
-    <form th:action="@{/create}" method="post" th:object="${book}">
+    <form th:action="@{/book/create}" method="post" th:object="${book}">
         <table>
             <tr>
                 <td>Name:</td>
